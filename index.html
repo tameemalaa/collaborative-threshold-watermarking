@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Collaborative Threshold Watermarking: a (t,K)-threshold watermarking protocol for federated learning that scales to many clients and ensures only coalitions of at least t clients can verify ownership.">
+  <meta name="keywords" content="federated learning, watermarking, threshold secret sharing, Shamir, model ownership, ML security">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Collaborative Threshold Watermarking</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <!-- MathJax for equations -->
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    .publication-title {
+      font-family: 'Google Sans', sans-serif;
+    }
+    .venue-badge {
+      display: inline-block;
+      background: #209cee;
+      color: white;
+      padding: 3px 12px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .equal-contribution {
+      font-size: 0.85rem;
+      color: #888;
+    }
+    .result-figure {
+      border: 1px solid #e8e8e8;
+      border-radius: 6px;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .method-box {
+      border-left: 4px solid #209cee;
+      background: #f5faff;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      border-radius: 0 6px 6px 0;
+    }
+    .method-box h4 {
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #363636;
+    }
+    .tag.is-venue {
+      background-color: #3273dc;
+      color: white;
+      font-size: 1rem;
+      padding: 0.4em 0.9em;
+    }
+    .contribution-list li {
+      margin-bottom: 0.6rem;
+    }
+    .section-divider {
+      border: none;
+      border-top: 1px solid #e8e8e8;
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+    </div>
+  </div>
+</nav>
+
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <span class="tag is-venue is-rounded mb-4">ICML 2026</span>
+
+          <h1 class="title is-1 publication-title">
+            Collaborative Threshold Watermarking
+          </h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="mailto:tameem.bakr@mbzuai.ac.ae">Tameem Bakr</a><sup>*,1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="mailto:anish.ambreth@mbzuai.ac.ae">Anish Ambreth</a><sup>*,1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://nilslukas.github.io">Nils Lukas</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-6 publication-authors mt-1">
+            <span class="author-block"><sup>1</sup>Mohamed bin Zayed University of Artificial Intelligence (MBZUAI), Abu Dhabi, UAE</span>
+          </div>
+          <p class="equal-contribution mt-1"><sup>*</sup>Equal contribution</p>
+
+          <div class="column has-text-centered mt-4">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="./static/poster.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Poster</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2602.10765"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark"
+                   title="Code coming soon">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== TEASER ===== -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure class="image">
+        <img src="./static/images/eyecatcher.png"
+             alt="Overview of Collaborative Threshold Watermarking. Setup distributes Shamir shares to all clients. Embed modifies FL training to embed the watermark. Verify allows any coalition of t or more clients to check ownership."
+             style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+      </figure>
+      <h2 class="subtitle has-text-centered mt-4">
+        <strong>Collaborative Threshold Watermarking</strong> protects jointly-trained federated
+        models: only coalitions of at least $t$ clients can verify the watermark, while
+        any individual client cannot remove or verify it unilaterally.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== ABSTRACT ===== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            In federated learning (FL), $K$ clients jointly train a model without sharing raw data.
+            Because each participant invests data and compute, clients need mechanisms to later prove
+            the provenance of a jointly trained model.
+          </p>
+          <p>
+            Model watermarking embeds a hidden signal in the weights, but naive approaches either do
+            not scale with many clients—as per-client watermarks dilute as $K$ grows—or give any
+            individual client the ability to verify and potentially remove the watermark.
+          </p>
+          <p>
+            We introduce <strong>$(t,K)$-threshold watermarking</strong>: clients collaboratively
+            embed a shared watermark during training, while only coalitions of at least $t$ clients
+            can reconstruct the watermark key and verify a suspect model. We secret-share the
+            watermark key $\tau$ so that coalitions of fewer than $t$ clients cannot reconstruct it,
+            and verification can be performed without revealing $\tau$ in the clear.
+          </p>
+          <p>
+            We instantiate our protocol in the white-box setting and evaluate on image
+            classification. Our watermark remains detectable at scale ($K=128$) with minimal
+            accuracy loss and stays above the detection threshold ($z \geq 4$) under attacks
+            including adaptive fine-tuning using up to 20% of the training data.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== METHOD ===== -->
+<section class="section" style="background: #f9f9f9;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+
+    <div class="content has-text-justified mb-5">
+      <p>
+        Our protocol combines <strong>Shamir secret sharing</strong> with
+        <strong>secure aggregation</strong> to embed a shared watermark across $K$ clients
+        under an untrusted server. It consists of three algorithms:
+      </p>
+    </div>
+
+    <div class="method-box">
+      <h4>1. Setup</h4>
+      <p>
+        A trusted dealer (or a dealer-free DKG protocol) samples a secret watermark key
+        $\tau \sim \mathcal{N}(0, I_d)$ and runs Shamir secret sharing to produce $K$ shares
+        $\{s_k\}_{k=1}^K$. Each client $k$ receives share $s_k$ and locally computes an
+        <em>embedding share</em> $w_k = \lambda_k s_k$ using the public Lagrange coefficient
+        $\lambda_k$, so that $\sum_{k=1}^K w_k = \tau$. The dealer then deletes $\tau$. A
+        public commitment $\mathcal{C} = \mathrm{Commit}(\tau; \rho)$ is published so that
+        the reconstructed key can be verified.
+      </p>
+    </div>
+
+    <div class="method-box">
+      <h4>2. Embed</h4>
+      <p>
+        In each FL round, each client $k$ performs local training and computes an
+        adaptively-scaled watermark perturbation. The scaling factor uses an exponential moving
+        average of update norms to stabilize embedding across heterogeneous rounds:
+        $\text{scale}_k = c \cdot \|\Delta\theta_k\|_2 \cdot \text{ema}_k$.
+        Clients contribute their scales via <em>secure aggregation</em>, so the server only
+        observes $\text{scale}_\text{total} = \sum_k \text{scale}_k$. Each client then submits
+        the watermarked update $u_k = \theta_k + \text{scale}_\text{total} \cdot w_k$ via
+        secure aggregation. The server aggregates to obtain the new global model without ever
+        seeing individual client updates or the watermark key $\tau$.
+      </p>
+    </div>
+
+    <div class="method-box">
+      <h4>3. Verify</h4>
+      <p>
+        Any coalition $\mathcal{S}$ with $|\mathcal{S}| \geq t$ can verify the watermark
+        <em>without reconstructing $\tau$ in the clear</em>. Each client $i \in \mathcal{S}$
+        locally computes $\langle \theta_s, s_i \rangle$, and the coalition sums weighted
+        inner products: $\langle \theta_s, \tau \rangle = \sum_{i \in \mathcal{S}} \lambda_i
+        \langle \theta_s, s_i \rangle$.
+        A calibrated one-sided $z$-score is computed; we accept the model as watermarked if
+        $z \geq 4$ (false positive rate $\approx 3.2 \times 10^{-5}$).
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===== RESULTS ===== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+
+    <!-- Scalability -->
+    <h3 class="title is-4 mt-5">Scalability</h3>
+    <div class="columns is-vcentered">
+      <div class="column is-7">
+        <figure class="image result-figure">
+          <img src="./static/images/zscore_vs_k.png"
+               alt="Z-score vs. number of clients K. Our method stays above the detection threshold at K=128 while the per-client baseline falls below at K=16.">
+        </figure>
+      </div>
+      <div class="column is-5 content has-text-justified">
+        <p>
+          As the number of clients $K$ grows, per-client watermarks dilute because the
+          aggregated signal direction becomes proportional to $\frac{1}{\sqrt{K}}$ times the
+          average of $K$ independent random vectors.
+        </p>
+        <p>
+          The per-client <strong>baseline falls below the detection threshold ($z=4$) at
+          $K \geq 16$</strong>. Our collaborative method maintains a strong signal up to
+          $K = 128$ (the largest setting we tested), even with a smaller watermark strength
+          ($c = 0.025$ vs. $c = 0.1$ for the baseline).
+        </p>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Robustness + Utility -->
+    <h3 class="title is-4 mt-4">Robustness and Model Utility</h3>
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <figure class="image result-figure">
+          <img src="./static/images/pareto_curve.png"
+               alt="Pareto frontier of task accuracy vs. watermark z-score under five attack types on CIFAR-100.">
+        </figure>
+        <p class="content has-text-justified mt-4">
+          We evaluate against a white-box adversary with access to auxiliary labeled data drawn
+          from the same distribution as the FL training data. The Pareto frontier above shows the
+          trade-off between watermark detectability ($z$-score) and model accuracy under adaptive
+          fine-tuning attacks with varying data fractions. Our method remains above the detection
+          threshold ($z \geq 4$) with up to 20% of the training data, while preserving accuracy.
+          Embedding the watermark with $c = 0.025$ introduces negligible accuracy loss
+          (typically $&lt;0.5\%$) across CIFAR-10, CIFAR-100, and Tiny ImageNet.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===== CONTRIBUTIONS ===== -->
+<section class="section" style="background: #f9f9f9;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Contributions</h2>
+        <div class="content">
+          <ul class="contribution-list">
+            <li>
+              We propose the <strong>first $(t,K)$-threshold watermark for federated
+              learning</strong> that scales to many clients and ensures only coalitions of
+              $\geq t$ clients can collectively verify the presence of a watermark.
+            </li>
+            <li>
+              We show empirically that our watermark has <strong>negligible impact on model
+              accuracy</strong> and is reliably detectable via a one-sided, calibrated
+              $z$-test.
+            </li>
+            <li>
+              Our watermark remains detectable under <strong>pruning up to 90%</strong>,
+              <strong>4-bit quantization</strong>, and <strong>adaptive fine-tuning with
+              up to 20% of training data</strong>.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== BIBTEX ===== -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{bakr2026collaborative,
+  author    = {Bakr, Tameem and Ambreth, Anish and Lukas, Nils},
+  title     = {Collaborative Threshold Watermarking},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2026},
+}</code></pre>
+  </div>
+</section>
+
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+            Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Website template from
+            <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
